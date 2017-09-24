@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "crazycells"
-  s.version      = "1.0"
+  s.version      = "1.1"
   s.summary      = "UITableView scroll animations in Swift"
   s.description  = <<-DESC
                    crazycells contains GLSTableViewCell, a subclass of UITableViewCell,
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Moises" => "moises@ganglionsoftware.com" }
   s.platform     = :ios, '9.0'
-  s.source       = { :git => "https://github.com/maranas/crazycells.git", :tag => "1.0" }
+  s.source       = { :git => "https://github.com/maranas/crazycells.git", :tag => "1.1" }
   s.source_files  = "crazycells/GLSTableViewCell.swift"
   s.frameworks = 'UIKit'
 end

@@ -9,64 +9,64 @@
 import UIKit
 
 enum GLSTableViewCellAnimationType:Int {
-    case Zoom
-    case SlideFromRight, SlideFromLeft
-    case CardShuffle
-    case Blinds
-    case FlipIn, FlipInLeft, FlipInRight
+    case zoom
+    case slideFromRight, slideFromLeft
+    case cardShuffle
+    case blinds
+    case flipIn, flipInLeft, flipInRight
     
     static func random() -> GLSTableViewCellAnimationType {
-        let max = FlipInRight.rawValue
+        let max = flipInRight.rawValue
         return GLSTableViewCellAnimationType(rawValue:Int(arc4random_uniform(UInt32(max + 1))))!
     }
 }
 
 class GLSTableViewCell: UITableViewCell {
-    var animationType:GLSTableViewCellAnimationType = GLSTableViewCellAnimationType.FlipIn
+    var animationType:GLSTableViewCellAnimationType = GLSTableViewCellAnimationType.flipIn
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
     
-    func zoomAnimation(duration:NSTimeInterval)
+    func zoomAnimation(_ duration:TimeInterval)
     {
         self.contentView.layer.transform = CATransform3DMakeScale(0.001, 0.001, 1.0)
         let oldColor:UIColor? = self.contentView.backgroundColor
         weak var weakSelf = self
-        UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
             weakSelf?.contentView.layer.transform = CATransform3DIdentity
             weakSelf?.contentView.backgroundColor = oldColor
             }, completion: nil)
     }
     
-    func slideAnimation(startX:CGFloat, duration:NSTimeInterval)
+    func slideAnimation(_ startX:CGFloat, duration:TimeInterval)
     {
         weak var weakSelf = self
         self.contentView.layer.transform = CATransform3DMakeTranslation(startX, 0, 0);
-        UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
             weakSelf?.contentView.layer.transform = CATransform3DIdentity
             }, completion: nil)
     }
     
-    func animateFromTransform(transform:CATransform3D, duration:NSTimeInterval)
+    func animateFromTransform(_ transform:CATransform3D, duration:TimeInterval)
     {
         weak var weakSelf = self
         let oldColor:UIColor? = self.contentView.backgroundColor
-        self.contentView.backgroundColor = UIColor.grayColor()
+        self.contentView.backgroundColor = UIColor.gray
         self.contentView.layer.transform = transform
-        UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
             weakSelf?.contentView.layer.transform = CATransform3DIdentity
             weakSelf?.contentView.backgroundColor = oldColor
             }, completion: nil)
     }
     
-    func shuffleTransform(z:CGFloat, scale:CGFloat) -> CATransform3D
+    func shuffleTransform(_ z:CGFloat, scale:CGFloat) -> CATransform3D
     {
         var transform:CATransform3D = CATransform3DIdentity;
         transform.m34 = 1.0 / z;
@@ -105,27 +105,27 @@ class GLSTableViewCell: UITableViewCell {
         return transform
     }
     
-    func animateIn(duration:NSTimeInterval) {
+    func animateIn(_ duration:TimeInterval) {
         weak var weakSelf = self
-        self.contentView.hidden = true
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        self.contentView.isHidden = true
+        DispatchQueue.main.async { () -> Void in
             if let unwrappedType = weakSelf?.animationType {
-                weakSelf?.contentView.hidden = false
+                weakSelf?.contentView.isHidden = false
                 switch unwrappedType as GLSTableViewCellAnimationType
                 {
-                    case GLSTableViewCellAnimationType.SlideFromRight:
+                    case GLSTableViewCellAnimationType.slideFromRight:
                         weakSelf?.slideAnimation((weakSelf?.contentView.frame.size.width)!, duration:duration)
-                    case GLSTableViewCellAnimationType.SlideFromLeft:
+                    case GLSTableViewCellAnimationType.slideFromLeft:
                         weakSelf?.slideAnimation(-(weakSelf?.contentView.frame.size.width)!, duration:duration)
-                    case GLSTableViewCellAnimationType.CardShuffle:
+                    case GLSTableViewCellAnimationType.cardShuffle:
                         weakSelf?.animateFromTransform((weakSelf?.shuffleTransform(-600, scale:0.7))!, duration: duration)
-                    case GLSTableViewCellAnimationType.Blinds:
+                    case GLSTableViewCellAnimationType.blinds:
                         weakSelf?.animateFromTransform((weakSelf?.shuffleTransform(-300, scale:1.0))!, duration: duration)
-                    case GLSTableViewCellAnimationType.FlipIn:
+                    case GLSTableViewCellAnimationType.flipIn:
                         weakSelf?.animateFromTransform((weakSelf?.flipInTransform())!, duration: duration)
-                    case GLSTableViewCellAnimationType.FlipInLeft:
+                    case GLSTableViewCellAnimationType.flipInLeft:
                         weakSelf?.animateFromTransform((weakSelf?.flipInLeftTransform())!, duration: duration)
-                    case GLSTableViewCellAnimationType.FlipInRight:
+                    case GLSTableViewCellAnimationType.flipInRight:
                         weakSelf?.animateFromTransform((weakSelf?.flipInRightTransform())!, duration: duration)
                     default:
                         weakSelf?.zoomAnimation(duration)

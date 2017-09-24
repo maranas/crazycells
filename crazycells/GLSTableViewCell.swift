@@ -72,7 +72,7 @@ class GLSTableViewCell: UITableViewCell {
         transform.m34 = 1.0 / z;
         transform = CATransform3DScale(transform, scale, scale, scale)
         transform = CATransform3DTranslate(transform, 0.0, (-self.contentView.frame.size.height)/2, 0.0)
-        transform = CATransform3DRotate(transform, CGFloat(M_PI/2.0), 1.0, 0.0, 0.0)
+        transform = CATransform3DRotate(transform, CGFloat(Double.pi/2.0), 1.0, 0.0, 0.0)
         transform = CATransform3DTranslate(transform, 0.0, (self.contentView.frame.size.height)/2, 0.0)
         return transform
     }
@@ -81,7 +81,7 @@ class GLSTableViewCell: UITableViewCell {
     {
         var transform:CATransform3D = CATransform3DIdentity;
         transform.m34 = 1.0 / -600;
-        transform = CATransform3DRotate(transform, CGFloat(M_PI/2.0), 0.0, 1.0, 0.0)
+        transform = CATransform3DRotate(transform, CGFloat(Double.pi/2.0), 0.0, 1.0, 0.0)
         return transform
     }
     
@@ -90,7 +90,7 @@ class GLSTableViewCell: UITableViewCell {
         var transform:CATransform3D = CATransform3DIdentity;
         transform.m34 = 1.0 / -600;
         transform = CATransform3DTranslate(transform, (-self.contentView.frame.size.width)/2, 0.0, 0.0)
-        transform = CATransform3DRotate(transform, CGFloat(M_PI/2.0), 0.0, 1.0, 0.0)
+        transform = CATransform3DRotate(transform, CGFloat(Double.pi/2.0), 0.0, 1.0, 0.0)
         transform = CATransform3DTranslate(transform, (self.contentView.frame.size.width)/2, 0.0, 0.0)
         return transform
     }
@@ -100,7 +100,7 @@ class GLSTableViewCell: UITableViewCell {
         var transform:CATransform3D = CATransform3DIdentity;
         transform.m34 = 1.0 / -600;
         transform = CATransform3DTranslate(transform, (self.contentView.frame.size.width)/2, 0.0, 0.0)
-        transform = CATransform3DRotate(transform, CGFloat(M_PI/2.0), 0.0, 1.0, 0.0)
+        transform = CATransform3DRotate(transform, CGFloat(Double.pi/2.0), 0.0, 1.0, 0.0)
         transform = CATransform3DTranslate(transform, (-self.contentView.frame.size.width)/2, 0.0, 0.0)
         return transform
     }
